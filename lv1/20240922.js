@@ -1,4 +1,4 @@
-//소수만들기 https://school.programmers.co.kr/learn/courses/30/lessons/12977
+//소수 만들기 https://school.programmers.co.kr/learn/courses/30/lessons/12977
 function isPrime(num) {
   if (num <= 1) return false;
   for (let i = 2; i * i <= num; i++) {
