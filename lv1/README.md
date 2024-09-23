@@ -36,3 +36,36 @@ for (let i = 2; i * i <= n; i++) {
 ```js
 return sieve.filter(Boolean).length;
 ```
+
+### 20240923 추가
+
+Date 객체로 풀어도 되지만, 알고리즘 답게 접근해 보았다.
+
+1. 변수 정의
+   
++ monthDays 배열에 2016년 각 월의 날짜 수를 정의. 2016년은 윤년이므로 2월은 29일
++ daysOfWeek 배열에 요일 문자열을 정의
++ totalDays 변수에 입력받은 일자(b)에서 1을 뺀 값을 초기값으로 설정(날짜수)
+```js
+const monthDays = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+
+let totalDays = b - 1; // 입력받은 일자까지의 날짜 수 계산
+```
+
+2. 로직 정의
+   
++ 매개변수 a, 월의 날짜수를 더하는데 이용 (for문)
++ dayIndex 변수에 (totalDays + 5) % 7을 계산하여 요일 인덱스를 계산 
++ daysOfWeek 배열에서 dayIndex에 해당하는 요일 문자열을 반환
+```js
+// 이전 달까지의 날짜 수 더하기
+for (let i = 0; i < a - 1; i++) {
+    totalDays += monthDays[i];
+}
+  
+// 요일 인덱스 계산 (2016년 1월 1일이 금요일이므로 인덱스 5부터 시작)
+const dayIndex = (totalDays + 5) % 7;
+
+return daysOfWeek[dayIndex];
+```
