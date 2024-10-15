@@ -71,3 +71,11 @@ const dayIndex = (totalDays + 5) % 7;
 
 return daysOfWeek[dayIndex];
 ```
+
+### 20241015 추가
+
+## 카드뭉치(forEach는 break가 되지 않는다.)
+
+반복문을 쓸때, 이터레이션으로 편하게 사용하려고 forEach를 자주쓴다. <br>
+<b>forEach는 이터레이션을 돌 때마다 새로운 함수를 실행시키는 구조이기 때문에 break가 되지 않는다.</b> <br>
+break가 필요한 경우 for문을 사용하자.
