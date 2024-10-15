@@ -1,4 +1,4 @@
-// 카드뭉치 https://school.programmers.co.kr/learn/courses/30/lessons/159994
+//카드뭉치 https://school.programmers.co.kr/learn/courses/30/lessons/159994
 function solution(cards1, cards2, goal) {
     for(let i = 0; i < goal.length; i++) {
         if(goal[i] === cards1[0]) {
