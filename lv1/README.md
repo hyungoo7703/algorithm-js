@@ -79,3 +79,93 @@ return daysOfWeek[dayIndex];
 반복문을 쓸때, 이터레이션으로 편하게 사용하려고 forEach를 자주쓴다. <br>
 <b>forEach는 이터레이션을 돌 때마다 새로운 함수를 실행시키는 구조이기 때문에 break가 되지 않는다.</b> <br>
 break가 필요한 경우 for문을 사용하자.
+
+### 20241017 추가
+
+## 대충 만든 자판
+
+### 접근 방법
+
+1. targets의 최소 자판수를 추출하는 것이 목적이라 reduce를 사용하는 것을 시작했다.
+2. 문자열 내 target 문자가 있으면 되는거라 indexOf() 메서드를 사용했다.
+3. indexOf()의 값이 -1인 경우를 제외하고 배열에 담아 주었고, 이 배열의 최솟값을 리턴하는 로직으로 알고리즘을 만들었다.
+```js
+function solution(keymap, targets) {
+    return targets.reduce((result, target) => {
+        let count = 0;
+        for(let char of target) {
+            let indexOfkey = []
+            for(let key of keymap) {
+                if(key.indexOf(char) !== -1) {
+                    indexOfkey.push(key.indexOf(char) + 1);
+                }
+            }
+            if(indexOfkey.length > 0)
+                count += Math.min(...indexOfkey);
+	else
+	     count = -1;
+        }
+        result.push(count);
+        return result;
+    }, []);
+}
+```
+<b> 이 코드에 엄청난 문제점이 있었다.</b> <br><br>
+현재 코드에서는 한 문자를 찾을 수 없을 때 즉시 -1을 반환하지 않고 계속 진행하기에 테스트 케이스는 맞았으나 제출시 틀렸던 것이다. <br>
+나무만 바라본 것이다. <br>
+그래서 charFound 변수를 도입하여 문자를 찾았는지 여부를 추적해 주었다. <br>
+모든 keymap을 확인한 후에 문자를 찾지 못했을 경우에만 -1을 결과에 추가하고 함수를 종료하는 로직을 더한것이다.
+```js
+function solution(keymap, targets) {
+    return targets.reduce((result, target) => {
+        let count = 0;
+        for(let char of target) {
+            let indexOfkey = []
+            let charFound = false; //추가변수
+            for(let key of keymap) {
+                if(key.indexOf(char) !== -1) {
+                    indexOfkey.push(key.indexOf(char) + 1);
+                    charFound = true;
+                }
+            }
+            if(!charFound) {
+                result.push(-1);
+                return result;
+            }
+            if(indexOfkey.length > 0)
+                count += Math.min(...indexOfkey);
+        }
+        result.push(count);
+        return result;
+    }, []);
+}
+```
+
+### 코드 개선
+
+통과한 후에도 계속 고민을 해봤다. reduce 내 중첩된 루프를 제거해 시간복잡도를 줄일 수 없을까? (가능할거 같았다.) <br>
+사실 indexOfkey는 key.indexOf(char) + 1 배열에서 0보다 큰 것만 뽑으면 되는 배열이다. <br>
+또 이때 indexOfkey가 비어있으면 -1을 즉시 반환해주면 훨씬 수월할거 같았다. <br>
+그래서 사용한 방법은 map과 filter를 사용하여 더 간결하고 이해하기 쉬운 구조를 만들었다. <br>
+코드는 아래와 같다.
+```js
+function solution(keymap, targets) {
+    return targets.map(target => {
+        let count = 0;
+        for(let char of target) {
+            let indexOfkey = keymap.map(key => key.indexOf(char) + 1).filter(index => index > 0);
+            if(indexOfkey.length > 0) {
+                count += Math.min(...indexOfkey);
+            } else {
+                return -1; // 문자를 찾을 수 없으면 즉시 -1 반환
+            }
+        }
+        return count;
+    });
+}
+```
+두 번째 코드는 중첩된 루프 대신 map과 filter를 사용하여 시간 복잡도를 줄이는 것도 성공했다. <br>
+시간 복잡도는 O(targets의 길이 * target의 길이 + targets의 길이 * keymap의 길이)가 되기에, 첫번째 짠 내 코드보다 효율적이었다.
+
+
+   
