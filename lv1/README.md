@@ -167,5 +167,34 @@ function solution(keymap, targets) {
 두 번째 코드는 중첩된 루프 대신 map과 filter를 사용하여 시간 복잡도를 줄이는 것도 성공했다. <br>
 시간 복잡도는 O(targets의 길이 * target의 길이 + targets의 길이 * keymap의 길이)가 되기에, 첫번째 짠 내 코드보다 효율적이었다.
 
+### 20241018 추가
 
+## [PCCP 기출문제] 1번 / 동영상 재생기(날짜에 대한 고정관념)
+
+분과 초만을 비교하는 로직을 생각할때, 우선 날짜니까 new Date() 객체에 너무 갇혀 생각하는 버릇이 있다는걸 알았다. <br>
+문자열 조작이나 정수 비교를 통해 이를 충분히 접근 할 수 있음을 깨달은 순간부턴, 쉬운 비교가 가능했다. <br>
+위 문제를 풀때 사용한 방법은 정수 비교이다. 문제에서 사용한 방법을 정리하면 아래와 같다.
+```js
+function compareMinutesSeconds(time1, time2) {
+  // 시간 형식은 "HH:MM:SS"라고 가정
+  const [, m1, s1] = time1.split(':').map(Number);
+  const [, m2, s2] = time2.split(':').map(Number);
+  
+  const totalSeconds1 = m1 * 60 + s1; //분,초를 하나의 정수로
+  const totalSeconds2 = m2 * 60 + s2; //분,초를 하나의 정수로
+  
+  return totalSeconds1 - totalSeconds2; //후 비교
+}
+
+// 사용 예
+console.log(compareMinutesSeconds("14:30:45", "14:30:46")); // -1
+console.log(compareMinutesSeconds("14:31:00", "14:30:59")); // 1
+console.log(compareMinutesSeconds("14:30:45", "14:30:45")); // 0
+```
+분과 초만을 비교하는 위 문제에서 new Date() 객체를 사용했다면,
+```js
+new Date(2024, 0, 1, 0, minutes, seconds);
+```
+이런식으로 임의의 날짜로 생성했어야 했을 것이다. <br>
+이는 딱 보기에도 좋은 방법이 아님을 알 수 있다.
    
