@@ -7,3 +7,4 @@
 
 목차
 + [lv1](https://github.com/hyungoo7703/algorithm-js-/tree/main/lv1)
++ [lv2](https://github.com/hyungoo7703/algorithm-js-/tree/main/lv2)
