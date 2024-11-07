@@ -24,11 +24,19 @@ function solution(n) {
 }
 //풀이2
 function solution(n) {
-    let answer = 0;
-    for (let k = 1; k * (k + 1) < 2 * n; k++) {
-        if ((2 * n - k * (k + 1)) % (2 * (k + 1)) === 0) {
-            answer++;
+    let count = 0;
+    
+    // k는 연속된 숫자의 개수
+    for(let k = 1; k <= n; k++) {
+        // x = (2n - k(k-1))/2k 공식 적용
+        const up = 2 * n - k * (k - 1);
+        const down = 2 * k;
+        
+        // x가 자연수인지 확인
+        if(up > 0 && up % down === 0) {
+            count++;
         }
     }
-    return answer + 1;
+    
+    return count;
 }
