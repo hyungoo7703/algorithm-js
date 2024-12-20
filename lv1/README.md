@@ -198,3 +198,68 @@ new Date(2024, 0, 1, 0, minutes, seconds);
 이런식으로 임의의 날짜로 생성했어야 했을 것이다. <br>
 이는 딱 보기에도 좋은 방법이 아님을 알 수 있다.
    
+### 20241220 추가
+
+## 약수의 개수(약수의 개수를 구하는 알고리즘)
+
+약수의 개수를 구할 때, 가장 단순한 방법은 1부터 N까지 모든 수를 순회하며 나머지가 0인 수를 세는 것이다. <br>
+만 이 방법은 O(N) 시간복잡도를 가져 비효율적이다.
+```js
+//방법1의 countDivisorsBasic
+function countDivisorsBasic(n) {
+    let count = 0;
+    for (let i = 1; i <= n; i++) {
+        if (n % i === 0) count++;
+    }
+    return count;
+}
+```
+실제로 이 방법으로 테스트를 해보았을 때, 비효율적인 결과를 확인 할 수 있다. <br>
+특히 큰 숫자에서는 명확하게 좋지 않은것이 보인다. <br><br>
+![image](https://github.com/user-attachments/assets/8817e622-8d86-4fdb-bee0-c540795d5d31)
+
+이 단순한 방법을 약간 효율적으로 쓰려면, 제곱근까지만의 약수를 확인하면 되는데 이는 모든 약수는 항상 쌍(pair)으로 존재하기 때문이다. <br>
+제곱근보다 큰 약수는 반드시 제곱근보다 작은 약수와 쌍을 이루기 때문에, 제곱근까지의 약수를 확인하고 x2를 해주면 약수의 개수가 된다. <br>
+단, 제곱수의 경우 제곱근 자체가 약수가 되므로 이 경우는 한 번만 세어야한다는 주의점은 있다.
+```js
+//방법2의 countDivisorsSqrt
+function countDivisorsSqrt(n) {
+    let count = 0;
+    for (let i = 1; i * i <= n; i++) {
+        if (i * i === n) {
+            count++;
+        } else if (n % i === 0) {
+            count += 2;
+        }
+    }
+    return count;
+}
+```
+가장 좋은 방법은 소인수 분해를 이용하는 것이다.(큰 수에 대해서도 효율적으로 동작하며, 특히 여러 번의 계산이 필요한 경우에 유용) <br>
+방법은 아래와 같다.
+1. 숫자를 소인수분해 → ex) 24 = 2³ × 3¹
+2. 각 소수의 지수에 1을 더한다. → ex) (3 + 1), (1 + 1)
+3. 모든 값을 곱한다. → ex) 약수의 개수 = (3 + 1) × (1 + 1) = 4 × 2 = 84
+```js
+//방법3의 countDivisorsPrime
+function countDivisorsPrime(n) {
+    let count = 1;
+    let num = n;
+    let i = 2;
+    
+    while (i * i <= num) {
+        let power = 0;
+        while (num % i === 0) {
+            num = Math.floor(num / i);
+            power++;
+        }
+        count *= (power + 1);
+        i++;
+    }
+    if (num > 1) count *= 2;
+    return count;
+}
+```
+실제로 아래 처럼 시간복잡도가 개선된 것을 확인할 수 있다. <br><br>
+![image](https://github.com/user-attachments/assets/85c0f247-79be-476f-a515-5c5f2fa9ee83)
+
