@@ -6,5 +6,8 @@
 
 
 목차
-+ [lv1](https://github.com/hyungoo7703/algorithm-js-/tree/main/lv1)
-+ [lv2](https://github.com/hyungoo7703/algorithm-js-/tree/main/lv2)
++ [lv1](lv1)
++ [lv2](lv2)
+
+알고리즘 고득점 Kit
++ [깊이/너비 우선 탐색(DFS/BFS)](kit)
