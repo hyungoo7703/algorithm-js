@@ -10,4 +10,4 @@
 + [lv2](lv2)
 
 알고리즘 고득점 Kit
-+ [깊이/너비 우선 탐색(DFS/BFS)](kit)
++ [깊이/너비 우선 탐색(DFS/BFS)](kit/dfs-bfs)
